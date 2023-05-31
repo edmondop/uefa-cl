@@ -38,10 +38,10 @@ func ChampionsLeague(ctx workflow.Context, participants Participants) (error, Re
 This is not an incredible change, but it's very true. FC Internazionale is the winner of the 2023/2024 edition, so let's modify the workflow code
 
 ```go
-func ChampionsLeague(ctx workflow.Context, participants Participants) (error, Result) {
-	return nil, Result{
+func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
+	return Result{
 		Winner: Team{Name: "FC Internazionale"},
-	}
+	}, nil
 }
 ```
 
@@ -70,7 +70,7 @@ A workflow engine allows client to submit workflows, and retrieve their result. 
     err = we.Get(context.Background(), &result)
 ```
 
-Now that we have submitted the workflow (you can try yourself from the folder `chapter1/main` to run `go run edmondo.go`), we can explore the UI and see what's happening. The first, obvious insight is now that there is a workflow running
+Now that we have submitted the workflow (you can try yourself from the folder `chapter1/main` to run `go run edmondo.go`), we can explore the UI and see what's happening. The client process will be hanging, waiting for the workflow to complete. The first, obvious insight we get from the UI is that there is a workflow running
 
 ![Running Workflows](../assets/chapter1/workflows.png)
 
@@ -88,25 +88,48 @@ Let's start from the top and understand the UI together:
 
 This can sound a little obscure, and it was for me at the beginning, until I understood durability. But I'd like to show (silly) examples first, so let's move to implement our worker.
 
-## Who orchestrate the the competition?
+## Who orchestrates the competition?
 
-I would love to be able to manage a multinational soccer event, and get free tickets for all the matches. However, I have learnt that too often our cognitive bias lead us to underappreciate the complexity of what we don't know. I am very happy to leave the work to do to a **management team**.
+I would love to be able to manage a multinational soccer event, and get free tickets for all the matches. However, I have learnt that too often our cognitive bias lead us to under-appreciate the complexity of what we don't know. I am very happy to leave the work to do to a **management team**.
 
-That's probably the right people capable of orchestrating a long running competition. There is certainly a team behind it. 
+So let's look in `management_team/main.go`:
+
+```go
+func main() {
+// The client and worker are heavyweight objects that should be created once per process.
+	c, err := client.Dial(client.Options{})
+	if err != nil {
+		log.Fatalln("Unable to create client", err)
+	}
+	defer c.Close()
+    // Registering a new worker, identity is optional
+	w := worker.New(c, "champions-league", worker.Options{
+        Identity: "Champions League Team",
+    })
+    // Register the worker as capable of executing the Champions League
+	w.RegisterWorkflow(chapter1.ChampionsLeague)
+    // Starting the worker until cancel
+	err = w.Run(worker.InterruptCh())
+	if err != nil {
+		log.Fatalln("Unable to start management_team", err)
+	}
+}
+
+```
 
 
-
-### Workflow executions
-
-(Most of this chapter is a copy-paste of Temporal documentation)
-
-A Temporal Workflow Execution is a durable, reliable, and scalable function execution. I'll quote the documentation here:
-- Durability is the absence of an imposed time limit.
-- Reliability is responsiveness in the presence of failure.
-- Scalability is responsiveness in the presence of load.
-
-The use of Workflow APIs in a Workflow Function generates Commands. Commands tell the Cluster which Events to create and add to the Workflow Execution's Event History. When a Workflow Function executes, the Commands that are emitted are compared with the existing Event History. If a corresponding Event already exists within the Event History that maps to the generation of that Command in the same sequence, and some specific metadata of that Command matches with some specific metadata of the Event, then the Function Execution progresses
-
-A special treatment 
+## Conclusion
 
 
+If you run this process with `go run main.go` within the management_team folder, you should see the client exiting
+
+```
+2023/05/29 15:36:30 INFO  No logger configured for temporal client. Created default one.
+2023/05/30 15:36:32 The UEFA CL 2023/2024 winner is: {FC Internazionale}
+
+```
+Very cool! You should have now understood the general architecture of a typical Temporal application:
+- A client obtain a handle to the server, and issue commands to start workflows on specific **task queues**
+- Worker processes, such as the `management_team` register themselves as capable of executing certain workflow types on certain queues
+
+In the next chapter we'll look at what happens if the management team that was in charge of the competition at the beginning is not available anymore
