@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/edmondop/uefa-cl/chapter1"
+	"github.com/edmondop/uefa-cl/chapter2"
 	"log"
 
 	"go.temporal.io/sdk/client"
@@ -20,7 +20,7 @@ func main() {
 		Identity: "Champions League Team",
 	})
 
-	w.RegisterWorkflow(chapter1.ChampionsLeague)
+	w.RegisterWorkflow(chapter2.ChampionsLeague)
 
 	err = w.Run(worker.InterruptCh())
 	if err != nil {
