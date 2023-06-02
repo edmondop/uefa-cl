@@ -19,10 +19,7 @@ func main() {
 		ID:        "2023/2024",
 		TaskQueue: "champions-league",
 	}
-	participants, err := chapter1.ReadParticipants("../../static/group_stages/pot%d.txt")
-	if err != nil {
-		log.Fatalln("Unable to read the participants to the Champions League", err)
-	}
+	participants := chapter1.GetParticipants()
 	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, chapter1.ChampionsLeague, participants)
 	if err != nil {
 		log.Fatalln("Unable to execute Champions League", err)

@@ -11,11 +11,9 @@ func TestChampionsLeague(t *testing.T) {
 	testSuite := &testsuite.WorkflowTestSuite{}
 	env := testSuite.NewTestWorkflowEnvironment()
 
-	// Mock activity implementation
-	partecipants, err := ReadParticipants("../static/group_stages/pot%d.txt")
-	require.NoError(t, err)
+	participants := GetParticipants()
 
-	env.ExecuteWorkflow(ChampionsLeague, partecipants)
+	env.ExecuteWorkflow(ChampionsLeague, participants)
 
 	require.True(t, env.IsWorkflowCompleted())
 	require.NoError(t, env.GetWorkflowError())
