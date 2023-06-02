@@ -1,10 +1,10 @@
-package common
+package chapter2
 
 type Team struct {
 	Name string
 }
 
-type Partecipants struct {
+type Participants struct {
 	SeededTeams []Team
 	OtherTeams  []Team
 }
