@@ -243,4 +243,4 @@ func TestChampionsLeague(t *testing.T) {
 ```
 
 Fortunately the sdk `env.OnActivity` allows us to mock the activity, verify it is invoked with the right inputs, and provide
-an output for the rest of the flow
+an output for the rest of the flow. In the next chapter we'll implement group stages and knockout phase.
