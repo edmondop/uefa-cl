@@ -1,4 +1,4 @@
-package chapter2
+package chapter3
 
 import (
 	"go.temporal.io/sdk/workflow"
@@ -8,7 +8,7 @@ import (
 func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
 	var groupStageDrawing *GroupStageDrawing
 	activityOptions := workflow.ActivityOptions{
-		StartToCloseTimeout: 10 * time.Hour, // Random value, do not pay attention
+		StartToCloseTimeout: 10 * time.Hour,
 	}
 	ctx = workflow.WithActivityOptions(ctx, activityOptions)
 	groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawing.DrawGroups, GroupStageDrawInput{Participants: participants})
