@@ -126,13 +126,13 @@ func GroupStage(ctx workflow.Context, groupStageDrawResult GroupStageDrawResult)
 	// Let each group play, and decide how to build each pot for the knockout phase drawing
 
 	selector := workflow.NewSelector(ctx)
-	var groupsRanking []GroupRanking
+	var groupsRanking = []GroupRanking{}
 	for _, group := range groupStageDrawResult.Groups {
 		future := workflow.ExecuteChildWorkflow(ctx, GroupWorkflow, group)
 		selector.AddFuture(future, func(f workflow.Future) {
 			var groupRanking GroupRanking
 			err = f.Get(ctx, &groupRanking)
-			if err != nil {
+			if err == nil {
 				groupsRanking = append(groupsRanking, groupRanking)
 			}
 		})
@@ -151,7 +151,7 @@ func GroupStage(ctx workflow.Context, groupStageDrawResult GroupStageDrawResult)
 	}
 	for _, groupRanking := range groupsRanking {
 		firstPot.Teams = append(firstPot.Teams, groupRanking.GroupRankingEntries[0].Team)
-		secondPot.Teams = append(firstPot.Teams, groupRanking.GroupRankingEntries[1].Team)
+		secondPot.Teams = append(secondPot.Teams, groupRanking.GroupRankingEntries[1].Team)
 	}
 	groupStageResult = GroupStageResult{
 		Pots: []Pot{firstPot, secondPot},

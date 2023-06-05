@@ -28,8 +28,3 @@ func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, e
 }
 
 //func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
-//	workflow.Sleep(ctx, time.Second*60)
-//	return Result{
-//		Winner: Team{Name: "FC Internazionale"},
-//	}, nil
-//}
