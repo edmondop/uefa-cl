@@ -56,13 +56,20 @@ Now that our drawing activity, we can use its input to create the Group Stage
 ## Relationships are important (although sometimes difficult!)
 
 If we really wouldn't value relationships, we would try to stick all the code that implement the group stage logic,
-the knockout phase logic, and even the final in the core `ChampionsLeague` workflow. But we are good people, and we also
-know that building large modules in software development is a bad idea, so we would structure our system in this way:
+the knockout phase logic, and even the final in the core `ChampionsLeague` workflow. But we are good people and we don't
+want one workflow to enjoy all the fun! We are going to structure our Champions League like so:
+- A ChampionsLeague workflow, responsible for coordinating the Group Stage, the Knockout Phase, the drawing, and the final
 - A GroupStage workflow, which needs to execute all the groups and return the qualified teams
 - A Group workflow, which can handle all the matches within that group
+- A Knockout Phase workflow that orchestrate all the Knockout phase (Round of 16, round of 8, round of 4)
+- A knockout phase pair
 
-As I mention, relationships are sometimes difficult and they are not always the right answer. Please refer to
-https://docs.temporal.io/workflows#when-to-use-child-workflows to learn more
+As I mention, relationships are sometimes difficult, and they are not always the right answer. In this case, for example,
+Lamport Clocks, Conflict-free distributed data types, lambda calculus and path-dependent types would have worked much
+better. If you plan to use Temporal for something more useful than celebrating FC Internazionale fourth Champions League
+(which is very useful, don't get me wrong) I highly recommend you read these two blog post:
+- https://docs.temporal.io/workflows#when-to-use-child-workflows
+- https://community.temporal.io/t/purpose-of-child-workflows/652/2
 
 ### And expressing ourselves is important too
 
