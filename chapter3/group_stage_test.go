@@ -14,9 +14,9 @@ func assertGroupHasRightResult(t *testing.T, group Group, winnerTeam string, run
 	testSuite := &testsuite.WorkflowTestSuite{}
 	env := testSuite.NewTestWorkflowEnvironment()
 	env.SetTestTimeout(60 * time.Hour)
-	env.OnActivity(PlayMatch, mock.Anything, mock.Anything).Return(
+	env.OnActivity(PlayGroupStageMatch, mock.Anything, mock.Anything).Return(
 		func(ctx context.Context, match GroupStageMatch) (GroupStageMatchResult, error) {
-			result, error := getResult(match)
+			result, error := getStageMatchResult(match)
 			require.NoError(t, error)
 			return result, error
 		})
@@ -38,7 +38,7 @@ func TestGroupB(t *testing.T) {
 }
 
 func TestGroupC(t *testing.T) {
-	assertGroupHasRightResult(t, GroupC(), "Bayern München", "Inter")
+	assertGroupHasRightResult(t, GroupC(), "Bayern München", "FC Internazionale")
 }
 
 func TestGroupD(t *testing.T) {
@@ -71,9 +71,9 @@ func TestGroupStage(t *testing.T) {
 	testSuite := &testsuite.WorkflowTestSuite{}
 	env := testSuite.NewTestWorkflowEnvironment()
 	env.SetTestTimeout(60 * time.Hour)
-	env.OnActivity(PlayMatch, mock.Anything, mock.Anything).Return(
+	env.OnActivity(PlayGroupStageMatch, mock.Anything, mock.Anything).Return(
 		func(ctx context.Context, match GroupStageMatch) (GroupStageMatchResult, error) {
-			result, error := getResult(match)
+			result, error := getStageMatchResult(match)
 			require.NoError(t, error)
 			return result, error
 		})
@@ -112,7 +112,7 @@ func TestGroupStage(t *testing.T) {
 		Teams: []Team{
 			{Name: "Liverpool FC"},
 			{Name: "Club Brugge KV"},
-			{Name: "Inter"},
+			{Name: "FC Internazionale"},
 			{Name: "Eintracht Frankfurt"},
 			{Name: "AC Milan"},
 			{Name: "RB Leipzig"},

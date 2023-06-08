@@ -119,32 +119,29 @@ activities we want to add? Well, at the beginning of the Champions League, teams
 after the group stage, they are paired during the *knockout phase*. While we are going to implement a deterministic
 behavior for this year, these two activities have a random component and are a great example.
 
-So these are our two activities:
-```go
-type GroupStageDrawing struct {
-	Name string
-}
-
-type KnockoutPhasePairing struct {
-	Name string
-}
-```
-
-and these are the struct methods
 
 ```go
-func (d *GroupStageDrawing) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
+
+type GroupStageDrawingVenue struct {
+    LocationName string
+}
+
+type KnockoutPhaseDrawingVenue struct {
+    LocationName string
+}
+
+func (d *GroupStageDrawingVenue) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
   logger := activity.GetLogger(ctx)
-  msg := fmt.Sprintf("Drawing group stages in %s with a total of %d teams", d.Name, input.Participants.TeamCount())
+  msg := fmt.Sprintf("Drawing group stages in %s with a total of %d teams", d.LocationName, input.Participants.TeamCount())
   logger.Info(msg)
   return GroupStageDrawResult{}, nil
 }
 
-func (d *KnockoutPhasePairing) DrawPairings(ctx context.Context, pairingInput PairingInput) (PairingResult, error) {
+func (d *KnockoutPhaseDrawingVenue) DrawFixtures(ctx context.Context, participants Participants) ([]Fixture, error) {
   logger := activity.GetLogger(ctx)
-  msg := fmt.Sprintf("Creating %d pairings in in %s.", pairingInput.Participants.TeamCount()/2, d.Name)
+  msg := fmt.Sprintf("Creating %d pairings in in %s.", participants.TeamCount()/2, d.LocationName)
   logger.Info(msg)
-  return PairingResult{}, nil
+  return []Fixture{}, nil
 }
 ```
 
@@ -154,12 +151,12 @@ for now, implement only the group stage draw.
 
 ```go
 func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
-  var groupStageDrawing *GroupStageDrawing
+  var groupStageDrawingVenue *GroupStageDrawingVenue
   activityOptions := workflow.ActivityOptions{
     StartToCloseTimeout: 10 * time.Hour,
   }
   ctx = workflow.WithActivityOptions(ctx, activityOptions)
-  groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawing.DrawGroups, GroupStageDrawInput{Participants: participants})
+  groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawingVenue.DrawGroups, GroupStageDrawInput{Participants: participants})
   var groupStageDrawResult *GroupStageDrawResult
   err := groupStageDraws.Get(ctx, &groupStageDrawResult)
   
@@ -221,7 +218,7 @@ func TestChampionsLeague(t *testing.T) {
 
 	
 	participants := GetParticipants()
-	var activity *GroupStageDrawing
+	var activity *GroupStageDrawingVenue
     // Mock activity implementation
 	env.OnActivity(activity.DrawGroups, mock.Anything, mock.Anything).Return(
 		func(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {

@@ -52,7 +52,7 @@ func Pot3() Pot {
 			{Name: "Borussia Dortmund"},
 			{Name: "FC Salzburg"},
 			{Name: "Shakhtar Donetsk"},
-			{Name: "Inter Milan"},
+			{Name: "FC Internazionale"},
 			{Name: "Napoli"},
 			{Name: "Benfica"},
 			{Name: "Sporting CP"},

@@ -20,8 +20,8 @@ func main() {
 		Identity: "Monte Carlo",
 	})
 
-	activities := &chapter3.GroupStageDrawing{
-		Name: "Monte Carlo",
+	activities := &chapter3.GroupStageDrawingVenue{
+		LocationName: "Monte Carlo",
 	}
 	w.RegisterActivity(activities)
 

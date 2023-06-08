@@ -177,7 +177,7 @@ func GroupB() Group {
 }
 
 func GroupC() Group {
-	inter := Team{Name: "Inter"}
+	inter := Team{Name: "FC Internazionale"}
 	bayernMunchen := Team{Name: "Bayern München"}
 	barcelona := Team{Name: "FC Barcelona"}
 	plzen := Team{Name: "Viktoria Plzeň"}
@@ -644,11 +644,11 @@ func GroupH() Group {
 	}
 }
 
-var results map[string]GroupStageMatchResult
+var groupStageResults map[string]GroupStageMatchResult
 
-func getResult(groupStageMatch GroupStageMatch) (GroupStageMatchResult, error) {
+func getStageMatchResult(groupStageMatch GroupStageMatch) (GroupStageMatchResult, error) {
 	key := groupStageMatch.HomeTeam.Name + "-" + groupStageMatch.AwayTeam.Name
-	result, ok := results[key]
+	result, ok := groupStageResults[key]
 	if !ok {
 		return GroupStageMatchResult{}, errors.New("unknown match")
 	}
@@ -656,127 +656,127 @@ func getResult(groupStageMatch GroupStageMatch) (GroupStageMatchResult, error) {
 }
 
 func addGroupAResults() {
-	results["AFC Ajax-Rangers FC"] = GroupStageMatchResult{4, 0}
-	results["SSC Napoli-Liverpool FC"] = GroupStageMatchResult{4, 1}
-	results["Liverpool FC-AFC Ajax"] = GroupStageMatchResult{2, 1}
-	results["Rangers FC-SSC Napoli"] = GroupStageMatchResult{0, 3}
-	results["AFC Ajax-SSC Napoli"] = GroupStageMatchResult{1, 6}
-	results["Liverpool FC-Rangers FC"] = GroupStageMatchResult{2, 0}
-	results["SSC Napoli-AFC Ajax"] = GroupStageMatchResult{4, 2}
-	results["Rangers FC-Liverpool FC"] = GroupStageMatchResult{1, 7}
-	results["AFC Ajax-Liverpool FC"] = GroupStageMatchResult{0, 3}
-	results["SSC Napoli-Rangers FC"] = GroupStageMatchResult{3, 0}
-	results["Rangers FC-AFC Ajax"] = GroupStageMatchResult{1, 3}
-	results["Liverpool FC-SSC Napoli"] = GroupStageMatchResult{2, 0}
+	groupStageResults["AFC Ajax-Rangers FC"] = GroupStageMatchResult{4, 0}
+	groupStageResults["SSC Napoli-Liverpool FC"] = GroupStageMatchResult{4, 1}
+	groupStageResults["Liverpool FC-AFC Ajax"] = GroupStageMatchResult{2, 1}
+	groupStageResults["Rangers FC-SSC Napoli"] = GroupStageMatchResult{0, 3}
+	groupStageResults["AFC Ajax-SSC Napoli"] = GroupStageMatchResult{1, 6}
+	groupStageResults["Liverpool FC-Rangers FC"] = GroupStageMatchResult{2, 0}
+	groupStageResults["SSC Napoli-AFC Ajax"] = GroupStageMatchResult{4, 2}
+	groupStageResults["Rangers FC-Liverpool FC"] = GroupStageMatchResult{1, 7}
+	groupStageResults["AFC Ajax-Liverpool FC"] = GroupStageMatchResult{0, 3}
+	groupStageResults["SSC Napoli-Rangers FC"] = GroupStageMatchResult{3, 0}
+	groupStageResults["Rangers FC-AFC Ajax"] = GroupStageMatchResult{1, 3}
+	groupStageResults["Liverpool FC-SSC Napoli"] = GroupStageMatchResult{2, 0}
 }
 
 func addGroupBResults() {
-	results["Atlético Madrid-FC Porto"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 1}
-	results["Club Brugge KV-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 1, AwayGoals: 0}
-	results["Bayer Leverkusen-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
-	results["FC Porto-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 4}
-	results["Club Brugge KV-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
-	results["FC Porto-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
-	results["Atlético Madrid-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 0}
-	results["Bayer Leverkusen-FC Porto"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 3}
-	results["Club Brugge KV-FC Porto"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 4}
-	results["Atlético Madrid-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 2}
-	results["FC Porto-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 1}
-	results["Bayer Leverkusen-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 0}
+	groupStageResults["Atlético Madrid-FC Porto"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 1}
+	groupStageResults["Club Brugge KV-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 1, AwayGoals: 0}
+	groupStageResults["Bayer Leverkusen-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
+	groupStageResults["FC Porto-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 4}
+	groupStageResults["Club Brugge KV-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
+	groupStageResults["FC Porto-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
+	groupStageResults["Atlético Madrid-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 0}
+	groupStageResults["Bayer Leverkusen-FC Porto"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 3}
+	groupStageResults["Club Brugge KV-FC Porto"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 4}
+	groupStageResults["Atlético Madrid-Bayer Leverkusen"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 2}
+	groupStageResults["FC Porto-Atlético Madrid"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 1}
+	groupStageResults["Bayer Leverkusen-Club Brugge KV"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 0}
 }
 
 func addGroupCResults() {
-	results["Inter-Bayern München"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 2}
-	results["FC Barcelona-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 5, AwayGoals: 1}
-	results["Viktoria Plzeň-Inter"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 2}
-	results["Bayern München-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
-	results["Bayern München-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 5, AwayGoals: 0}
-	results["Inter-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 1, AwayGoals: 0}
-	results["Viktoria Plzeň-Bayern München"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 4}
-	results["FC Barcelona-Inter"] = GroupStageMatchResult{HomeGoals: 3, AwayGoals: 3}
-	results["Inter-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 4, AwayGoals: 0}
-	results["FC Barcelona-Bayern München"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 3}
-	results["Bayern München-Inter"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
-	results["Viktoria Plzeň-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 4}
+	groupStageResults["FC Internazionale-Bayern München"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 2}
+	groupStageResults["FC Barcelona-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 5, AwayGoals: 1}
+	groupStageResults["Viktoria Plzeň-FC Internazionale"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 2}
+	groupStageResults["Bayern München-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
+	groupStageResults["Bayern München-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 5, AwayGoals: 0}
+	groupStageResults["FC Internazionale-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 1, AwayGoals: 0}
+	groupStageResults["Viktoria Plzeň-Bayern München"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 4}
+	groupStageResults["FC Barcelona-FC Internazionale"] = GroupStageMatchResult{HomeGoals: 3, AwayGoals: 3}
+	groupStageResults["FC Internazionale-Viktoria Plzeň"] = GroupStageMatchResult{HomeGoals: 4, AwayGoals: 0}
+	groupStageResults["FC Barcelona-Bayern München"] = GroupStageMatchResult{HomeGoals: 0, AwayGoals: 3}
+	groupStageResults["Bayern München-FC Internazionale"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 0}
+	groupStageResults["Viktoria Plzeň-FC Barcelona"] = GroupStageMatchResult{HomeGoals: 2, AwayGoals: 4}
 }
 
 func addGroupDResults() {
-	results["Eintracht Frankfurt-Sporting CP"] = GroupStageMatchResult{0, 3}
-	results["Tottenham Hotspur-Olympique Marseille"] = GroupStageMatchResult{2, 0}
-	results["Sporting CP-Tottenham Hotspur"] = GroupStageMatchResult{2, 0}
-	results["Olympique Marseille-Eintracht Frankfurt"] = GroupStageMatchResult{0, 1}
-	results["Olympique Marseille-Sporting CP"] = GroupStageMatchResult{4, 1}
-	results["Eintracht Frankfurt-Tottenham Hotspur"] = GroupStageMatchResult{0, 0}
-	results["Tottenham Hotspur-Eintracht Frankfurt"] = GroupStageMatchResult{3, 2}
-	results["Sporting CP-Olympique Marseille"] = GroupStageMatchResult{0, 2}
-	results["Eintracht Frankfurt-Olympique Marseille"] = GroupStageMatchResult{2, 1}
-	results["Tottenham Hotspur-Sporting CP"] = GroupStageMatchResult{1, 1}
-	results["Sporting CP-Eintracht Frankfurt"] = GroupStageMatchResult{1, 2}
-	results["Olympique Marseille-Tottenham Hotspur"] = GroupStageMatchResult{1, 2}
+	groupStageResults["Eintracht Frankfurt-Sporting CP"] = GroupStageMatchResult{0, 3}
+	groupStageResults["Tottenham Hotspur-Olympique Marseille"] = GroupStageMatchResult{2, 0}
+	groupStageResults["Sporting CP-Tottenham Hotspur"] = GroupStageMatchResult{2, 0}
+	groupStageResults["Olympique Marseille-Eintracht Frankfurt"] = GroupStageMatchResult{0, 1}
+	groupStageResults["Olympique Marseille-Sporting CP"] = GroupStageMatchResult{4, 1}
+	groupStageResults["Eintracht Frankfurt-Tottenham Hotspur"] = GroupStageMatchResult{0, 0}
+	groupStageResults["Tottenham Hotspur-Eintracht Frankfurt"] = GroupStageMatchResult{3, 2}
+	groupStageResults["Sporting CP-Olympique Marseille"] = GroupStageMatchResult{0, 2}
+	groupStageResults["Eintracht Frankfurt-Olympique Marseille"] = GroupStageMatchResult{2, 1}
+	groupStageResults["Tottenham Hotspur-Sporting CP"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Sporting CP-Eintracht Frankfurt"] = GroupStageMatchResult{1, 2}
+	groupStageResults["Olympique Marseille-Tottenham Hotspur"] = GroupStageMatchResult{1, 2}
 }
 
 func addGroupEResults() {
-	results["Dinamo Zagreb-Chelsea FC"] = GroupStageMatchResult{1, 0}
-	results["RB Salzburg-AC Milan"] = GroupStageMatchResult{1, 1}
-	results["AC Milan-Dinamo Zagreb"] = GroupStageMatchResult{3, 1}
-	results["Chelsea FC-RB Salzburg"] = GroupStageMatchResult{1, 1}
-	results["RB Salzburg-Dinamo Zagreb"] = GroupStageMatchResult{1, 0}
-	results["Chelsea FC-AC Milan"] = GroupStageMatchResult{3, 0}
-	results["AC Milan-Chelsea FC"] = GroupStageMatchResult{0, 2}
-	results["Dinamo Zagreb-RB Salzburg"] = GroupStageMatchResult{1, 1}
-	results["RB Salzburg-Chelsea FC"] = GroupStageMatchResult{1, 2}
-	results["Dinamo Zagreb-AC Milan"] = GroupStageMatchResult{0, 4}
-	results["AC Milan-RB Salzburg"] = GroupStageMatchResult{4, 0}
-	results["Chelsea FC-Dinamo Zagreb"] = GroupStageMatchResult{2, 1}
+	groupStageResults["Dinamo Zagreb-Chelsea FC"] = GroupStageMatchResult{1, 0}
+	groupStageResults["RB Salzburg-AC Milan"] = GroupStageMatchResult{1, 1}
+	groupStageResults["AC Milan-Dinamo Zagreb"] = GroupStageMatchResult{3, 1}
+	groupStageResults["Chelsea FC-RB Salzburg"] = GroupStageMatchResult{1, 1}
+	groupStageResults["RB Salzburg-Dinamo Zagreb"] = GroupStageMatchResult{1, 0}
+	groupStageResults["Chelsea FC-AC Milan"] = GroupStageMatchResult{3, 0}
+	groupStageResults["AC Milan-Chelsea FC"] = GroupStageMatchResult{0, 2}
+	groupStageResults["Dinamo Zagreb-RB Salzburg"] = GroupStageMatchResult{1, 1}
+	groupStageResults["RB Salzburg-Chelsea FC"] = GroupStageMatchResult{1, 2}
+	groupStageResults["Dinamo Zagreb-AC Milan"] = GroupStageMatchResult{0, 4}
+	groupStageResults["AC Milan-RB Salzburg"] = GroupStageMatchResult{4, 0}
+	groupStageResults["Chelsea FC-Dinamo Zagreb"] = GroupStageMatchResult{2, 1}
 }
 
 func addGroupFResults() {
-	results["Celtic FC-Real Madrid"] = GroupStageMatchResult{0, 3}
-	results["RB Leipzig-Shakhtar Donetsk"] = GroupStageMatchResult{1, 4}
-	results["Shakhtar Donetsk-Celtic FC"] = GroupStageMatchResult{1, 1}
-	results["Real Madrid-RB Leipzig"] = GroupStageMatchResult{2, 0}
-	results["RB Leipzig-Celtic FC"] = GroupStageMatchResult{3, 1}
-	results["Real Madrid-Shakhtar Donetsk"] = GroupStageMatchResult{2, 1}
-	results["Celtic FC-RB Leipzig"] = GroupStageMatchResult{0, 2}
-	results["Shakhtar Donetsk-Real Madrid"] = GroupStageMatchResult{1, 1}
-	results["Celtic FC-Shakhtar Donetsk"] = GroupStageMatchResult{1, 1}
-	results["RB Leipzig-Real Madrid"] = GroupStageMatchResult{3, 2}
-	results["Real Madrid-Celtic FC"] = GroupStageMatchResult{5, 1}
-	results["Shakhtar Donetsk-RB Leipzig"] = GroupStageMatchResult{0, 4}
+	groupStageResults["Celtic FC-Real Madrid"] = GroupStageMatchResult{0, 3}
+	groupStageResults["RB Leipzig-Shakhtar Donetsk"] = GroupStageMatchResult{1, 4}
+	groupStageResults["Shakhtar Donetsk-Celtic FC"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Real Madrid-RB Leipzig"] = GroupStageMatchResult{2, 0}
+	groupStageResults["RB Leipzig-Celtic FC"] = GroupStageMatchResult{3, 1}
+	groupStageResults["Real Madrid-Shakhtar Donetsk"] = GroupStageMatchResult{2, 1}
+	groupStageResults["Celtic FC-RB Leipzig"] = GroupStageMatchResult{0, 2}
+	groupStageResults["Shakhtar Donetsk-Real Madrid"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Celtic FC-Shakhtar Donetsk"] = GroupStageMatchResult{1, 1}
+	groupStageResults["RB Leipzig-Real Madrid"] = GroupStageMatchResult{3, 2}
+	groupStageResults["Real Madrid-Celtic FC"] = GroupStageMatchResult{5, 1}
+	groupStageResults["Shakhtar Donetsk-RB Leipzig"] = GroupStageMatchResult{0, 4}
 }
 
 func addGroupGResults() {
-	results["Borussia Dortmund-FC København"] = GroupStageMatchResult{3, 0}
-	results["Sevilla FC-Manchester City"] = GroupStageMatchResult{0, 4}
-	results["Manchester City-Borussia Dortmund"] = GroupStageMatchResult{2, 1}
-	results["FC København-Sevilla FC"] = GroupStageMatchResult{0, 0}
-	results["Sevilla FC-Borussia Dortmund"] = GroupStageMatchResult{1, 4}
-	results["Manchester City-FC København"] = GroupStageMatchResult{5, 0}
-	results["FC København-Manchester City"] = GroupStageMatchResult{0, 0}
-	results["Borussia Dortmund-Sevilla FC"] = GroupStageMatchResult{1, 1}
-	results["Sevilla FC-FC København"] = GroupStageMatchResult{3, 0}
-	results["Borussia Dortmund-Manchester City"] = GroupStageMatchResult{0, 0}
-	results["FC København-Borussia Dortmund"] = GroupStageMatchResult{1, 1}
-	results["Manchester City-Sevilla FC"] = GroupStageMatchResult{3, 1}
+	groupStageResults["Borussia Dortmund-FC København"] = GroupStageMatchResult{3, 0}
+	groupStageResults["Sevilla FC-Manchester City"] = GroupStageMatchResult{0, 4}
+	groupStageResults["Manchester City-Borussia Dortmund"] = GroupStageMatchResult{2, 1}
+	groupStageResults["FC København-Sevilla FC"] = GroupStageMatchResult{0, 0}
+	groupStageResults["Sevilla FC-Borussia Dortmund"] = GroupStageMatchResult{1, 4}
+	groupStageResults["Manchester City-FC København"] = GroupStageMatchResult{5, 0}
+	groupStageResults["FC København-Manchester City"] = GroupStageMatchResult{0, 0}
+	groupStageResults["Borussia Dortmund-Sevilla FC"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Sevilla FC-FC København"] = GroupStageMatchResult{3, 0}
+	groupStageResults["Borussia Dortmund-Manchester City"] = GroupStageMatchResult{0, 0}
+	groupStageResults["FC København-Borussia Dortmund"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Manchester City-Sevilla FC"] = GroupStageMatchResult{3, 1}
 }
 
 func addGroupHResults() {
-	results["Paris Saint-Germain-Juventus"] = GroupStageMatchResult{2, 1}
-	results["SL Benfica-Maccabi Haifa"] = GroupStageMatchResult{2, 0}
-	results["Juventus-SL Benfica"] = GroupStageMatchResult{1, 2}
-	results["Maccabi Haifa-Paris Saint-Germain"] = GroupStageMatchResult{1, 3}
-	results["Juventus-Maccabi Haifa"] = GroupStageMatchResult{3, 1}
-	results["SL Benfica-Paris Saint-Germain"] = GroupStageMatchResult{1, 1}
-	results["Maccabi Haifa-Juventus"] = GroupStageMatchResult{2, 0}
-	results["Paris Saint-Germain-SL Benfica"] = GroupStageMatchResult{1, 1}
-	results["SL Benfica-Juventus"] = GroupStageMatchResult{4, 3}
-	results["Paris Saint-Germain-Maccabi Haifa"] = GroupStageMatchResult{7, 2}
-	results["Juventus-Paris Saint-Germain"] = GroupStageMatchResult{1, 2}
-	results["Maccabi Haifa-SL Benfica"] = GroupStageMatchResult{1, 6}
+	groupStageResults["Paris Saint-Germain-Juventus"] = GroupStageMatchResult{2, 1}
+	groupStageResults["SL Benfica-Maccabi Haifa"] = GroupStageMatchResult{2, 0}
+	groupStageResults["Juventus-SL Benfica"] = GroupStageMatchResult{1, 2}
+	groupStageResults["Maccabi Haifa-Paris Saint-Germain"] = GroupStageMatchResult{1, 3}
+	groupStageResults["Juventus-Maccabi Haifa"] = GroupStageMatchResult{3, 1}
+	groupStageResults["SL Benfica-Paris Saint-Germain"] = GroupStageMatchResult{1, 1}
+	groupStageResults["Maccabi Haifa-Juventus"] = GroupStageMatchResult{2, 0}
+	groupStageResults["Paris Saint-Germain-SL Benfica"] = GroupStageMatchResult{1, 1}
+	groupStageResults["SL Benfica-Juventus"] = GroupStageMatchResult{4, 3}
+	groupStageResults["Paris Saint-Germain-Maccabi Haifa"] = GroupStageMatchResult{7, 2}
+	groupStageResults["Juventus-Paris Saint-Germain"] = GroupStageMatchResult{1, 2}
+	groupStageResults["Maccabi Haifa-SL Benfica"] = GroupStageMatchResult{1, 6}
 }
 
 func init() {
-	results = make(map[string]GroupStageMatchResult)
+	groupStageResults = make(map[string]GroupStageMatchResult)
 	addGroupAResults()
 	addGroupBResults()
 	addGroupCResults()

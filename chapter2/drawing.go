@@ -6,12 +6,12 @@ import (
 	"go.temporal.io/sdk/activity"
 )
 
-type GroupStageDrawing struct {
-	Name string
+type GroupStageDrawingVenue struct {
+	LocationName string
 }
 
-type KnockoutPhasePairing struct {
-	Name string
+type KnockoutPhaseDrawingVenue struct {
+	LocationName string
 }
 
 type GroupStageDrawInput struct {
@@ -22,24 +22,16 @@ type GroupStageDrawResult struct {
 	Group [8]Group
 }
 
-type PairingInput struct {
-	Participants Participants
-}
-
-type PairingResult struct {
-	Pairings []Pairing
-}
-
-func (d *GroupStageDrawing) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
+func (d *GroupStageDrawingVenue) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
 	logger := activity.GetLogger(ctx)
-	msg := fmt.Sprintf("Drawing group stages in %s with a total of %d teams", d.Name, input.Participants.TeamCount())
+	msg := fmt.Sprintf("Drawing group stages in %s with a total of %d teams", d.LocationName, input.Participants.TeamCount())
 	logger.Info(msg)
 	return GroupStageDrawResult{}, nil
 }
 
-func (d *KnockoutPhasePairing) DrawPairings(ctx context.Context, pairingInput PairingInput) (PairingResult, error) {
+func (d *KnockoutPhaseDrawingVenue) DrawFixtures(ctx context.Context, participants Participants) ([]Fixture, error) {
 	logger := activity.GetLogger(ctx)
-	msg := fmt.Sprintf("Creating %d pairings in %s.", pairingInput.Participants.TeamCount()/2, d.Name)
+	msg := fmt.Sprintf("Creating %d pairings in %s.", participants.TeamCount()/2, d.LocationName)
 	logger.Info(msg)
-	return PairingResult{}, nil
+	return []Fixture{}, nil
 }

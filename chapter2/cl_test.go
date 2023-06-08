@@ -14,7 +14,7 @@ func TestChampionsLeague(t *testing.T) {
 	env := testSuite.NewTestWorkflowEnvironment()
 
 	participants := GetParticipants()
-	var activity *GroupStageDrawing
+	var activity *GroupStageDrawingVenue
 	// Mock activity implementation
 	env.OnActivity(activity.DrawGroups, mock.Anything, mock.Anything).Return(
 		func(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {

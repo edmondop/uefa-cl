@@ -116,8 +116,8 @@ func (g *groupRankingBuilder) ToGroupRanking() GroupRanking {
 	}
 }
 
-func PlayMatch(_ context.Context, match GroupStageMatch) (GroupStageMatchResult, error) {
-	return getResult(match)
+func PlayGroupStageMatch(_ context.Context, match GroupStageMatch) (GroupStageMatchResult, error) {
+	return getStageMatchResult(match)
 }
 
 func GroupStage(ctx workflow.Context, groupStageDrawResult GroupStageDrawResult) (groupStageResult GroupStageResult, err error) {
@@ -173,7 +173,7 @@ func GroupWorkflow(ctx workflow.Context, group Group) (ranking GroupRanking, err
 				StartToCloseTimeout: 10 * time.Minute,
 			}
 			ctx = workflow.WithActivityOptions(ctx, activityOptions)
-			future := workflow.ExecuteActivity(ctx, PlayMatch, groupMatch)
+			future := workflow.ExecuteActivity(ctx, PlayGroupStageMatch, groupMatch)
 			var matchResult GroupStageMatchResult
 			err = future.Get(ctx, &matchResult)
 			if err == nil {

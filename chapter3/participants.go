@@ -20,9 +20,13 @@ func (p *Participants) TeamCount() int {
 	return count
 }
 
-type Pairing struct {
-	Left  Team
-	Right Team
+type KnockoutRoundLeg struct {
+	HomeTeam Team
+	AwayTeam Team
+}
+type KnockoutRoundFixture struct {
+	FirstLeg  KnockoutRoundLeg
+	SecondLeg KnockoutRoundLeg
 }
 
 type Result struct {
@@ -65,7 +69,7 @@ func Pot3() Pot {
 			{Name: "Borussia Dortmund"},
 			{Name: "FC Salzburg"},
 			{Name: "Shakhtar Donetsk"},
-			{Name: "Inter Milan"},
+			{Name: "FC Internazionale"},
 			{Name: "Napoli"},
 			{Name: "Benfica"},
 			{Name: "Sporting CP"},

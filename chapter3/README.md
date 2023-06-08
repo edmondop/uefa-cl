@@ -9,7 +9,7 @@ browsing the code.
 Now that we have the code for the groups, we can correctly implement the DrawGroupStage activity like so
 
 ```go
-func (d *GroupStageDrawing) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
+func (d *GroupStageDrawingVenue) DrawGroups(ctx context.Context, input GroupStageDrawInput) (GroupStageDrawResult, error) {
 	logger := activity.GetLogger(ctx)
 	msg := fmt.Sprintf("Drawing group stages in %s with a total of %d teams", d.Name, input.Participants.TeamCount())
 	logger.Info(msg)
@@ -39,7 +39,7 @@ We always start from the entry point in Temporal SDK, `testsuite.WorkflowTestSui
 func TestGroupStageDraw(t *testing.T) {
 	testSuite := &testsuite.WorkflowTestSuite{}
 	env := testSuite.NewTestActivityEnvironment()
-	var drawing = &GroupStageDrawing{Name: "Monte Carlo"}
+	var drawing = &GroupStageDrawingVenue{Name: "Monte Carlo"}
 	env.RegisterActivity(drawing.DrawGroups)
 	groups, err := env.ExecuteActivity(drawing.DrawGroups, GroupStageDrawInput{
 		Participants: GetParticipants(),
@@ -55,19 +55,19 @@ Now that our drawing activity, we can use its input to create the Group Stage
 
 ## Relationships are important (although sometimes difficult!)
 
-If we really wouldn't value relationships, we would try to stick all the code that implement the group stage logic,
-the knockout phase logic, and even the final in the core `ChampionsLeague` workflow. But we are good people and we don't
-want one workflow to enjoy all the fun! We are going to structure our Champions League like so:
+If we really wouldn't value relationships, we would try to stick all the logic in `ChampionsLeague` workflow. Or exclude
+children workflows from the party, and replace them with alternatives such as Object Oriented Programming. But we are
+good people, and we are going to structure our Champions League like so:
 - A ChampionsLeague workflow, responsible for coordinating the Group Stage, the Knockout Phase, the drawing, and the final
 - A GroupStage workflow, which needs to execute all the groups and return the qualified teams
 - A Group workflow, which can handle all the matches within that group
 - A Knockout Phase workflow that orchestrate all the Knockout phase (Round of 16, round of 8, round of 4)
-- A knockout phase pair
+- A Fixture workflow that orchestrate the two legs of each fixture.
 
-As I mention, relationships are sometimes difficult, and they are not always the right answer. In this case, for example,
-Lamport Clocks, Conflict-free distributed data types, lambda calculus and path-dependent types would have worked much
-better. If you plan to use Temporal for something more useful than celebrating FC Internazionale fourth Champions League
-(which is very useful, don't get me wrong) I highly recommend you read these two blog post:
+As I mention, relationships are sometimes difficult, and children workflows are not always the right answer. In this 
+case, for example, Lamport Clocks, Conflict-free distributed data types, lambda calculus and path-dependent types would 
+have worked much better. If you plan to use Temporal for something more useful than celebrating FC Internazionale fourth
+Champions League (which is very useful, don't get me wrong) I highly recommend you read these two blog post:
 - https://docs.temporal.io/workflows#when-to-use-child-workflows
 - https://community.temporal.io/t/purpose-of-child-workflows/652/2
 
@@ -95,5 +95,5 @@ group, wait for it to terminate, and determine which teams are going to get into
  is pretty simple (the two teams that are at the top of the group ranking make into the final), you can imagine this
 is the place where we could handle, for example, a disqualified team (let's say a financial fraud, for example).
 
-What I want to stress out here is that the logic is deterministic: once all the groups have played, there is a 
-well-defined process to decide which team makes into the knockout phase
+What I want to stress out here is that the logic is deterministic: once all the groups have played, 
+there is a well-defined process to decide which team makes into the knockout phase

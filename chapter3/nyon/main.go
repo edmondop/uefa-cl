@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/edmondop/uefa-cl/chapter2"
+	"github.com/edmondop/uefa-cl/chapter3"
 	"log"
 
 	"go.temporal.io/sdk/client"
@@ -20,8 +20,8 @@ func main() {
 		Identity: "Nyon",
 	})
 
-	activities := &chapter2.KnockoutPhasePairing{
-		Name: "Nyon",
+	activities := &chapter3.KnockoutPhaseDrawingVenue{
+		LocationName: "Nyon",
 	}
 	w.RegisterActivity(activities)
 

@@ -6,12 +6,12 @@ import (
 )
 
 func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
-	var groupStageDrawing *GroupStageDrawing
+	var groupStageDrawingVenue *GroupStageDrawingVenue
 	activityOptions := workflow.ActivityOptions{
 		StartToCloseTimeout: 10 * time.Hour, // Random value, do not pay attention
 	}
 	ctx = workflow.WithActivityOptions(ctx, activityOptions)
-	groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawing.DrawGroups, GroupStageDrawInput{Participants: participants})
+	groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawingVenue.DrawGroups, GroupStageDrawInput{Participants: participants})
 	var groupStageDrawResult *GroupStageDrawResult
 	err := groupStageDraws.Get(ctx, &groupStageDrawResult)
 	if err != nil {

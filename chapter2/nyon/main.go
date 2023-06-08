@@ -20,8 +20,8 @@ func main() {
 		Identity: "Nyon",
 	})
 
-	activities := &chapter2.KnockoutPhasePairing{
-		Name: "Nyon",
+	activities := &chapter2.KnockoutPhaseDrawingVenue{
+		LocationName: "Nyon",
 	}
 	w.RegisterActivity(activities)
 

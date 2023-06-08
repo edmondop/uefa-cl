@@ -23,7 +23,7 @@ func (p *Participants) TeamCount() int {
 type Group struct {
 	Teams [4]Team
 }
-type Pairing struct {
+type Fixture struct {
 	Left  Team
 	Right Team
 }
@@ -68,7 +68,7 @@ func Pot3() Pot {
 			{Name: "Borussia Dortmund"},
 			{Name: "FC Salzburg"},
 			{Name: "Shakhtar Donetsk"},
-			{Name: "Inter Milan"},
+			{Name: "FC Internazionale"},
 			{Name: "Napoli"},
 			{Name: "Benfica"},
 			{Name: "Sporting CP"},
