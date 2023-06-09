@@ -76,9 +76,7 @@ func distributeInPots(teams []Team, potCount int) []Pot {
 }
 
 func KnockoutStage(ctx workflow.Context, result GroupStageResult) (Finalists, error) {
-	roundOf16Partecipants := Participants{
-		Pots: result.Pots,
-	}
+	roundOf16Partecipants := Participants(result)
 	activityOptions := workflow.ActivityOptions{
 		StartToCloseTimeout: 10 * time.Minute,
 	}
@@ -103,6 +101,9 @@ func KnockoutStage(ctx workflow.Context, result GroupStageResult) (Finalists, er
 		return Finalists{}, err
 	}
 	round8Winners, err := playKnockoutRound(ctx, roundOf8Fixtures)
+	if err != nil {
+		return Finalists{}, err
+	}
 	roundOf4Participants := distributeInPots(round8Winners, 2)
 	var roundOf4Fixtures []KnockoutRoundFixture
 	err = workflow.ExecuteActivity(ctx, activity.DrawFixtures,
@@ -110,6 +111,9 @@ func KnockoutStage(ctx workflow.Context, result GroupStageResult) (Finalists, er
 			Pots: roundOf4Participants,
 		},
 	).Get(ctx, &roundOf4Fixtures)
+	if err != nil {
+		return Finalists{}, err
+	}
 	roundOf4Winners, err := playKnockoutRound(ctx, roundOf4Fixtures)
 	if err != nil {
 		return Finalists{}, err
