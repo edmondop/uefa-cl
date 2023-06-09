@@ -20,7 +20,7 @@ func assertGroupHasRightResult(t *testing.T, group Group, winnerTeam string, run
 			require.NoError(t, error)
 			return result, error
 		})
-	env.ExecuteWorkflow(GroupWorkflow, group)
+	env.ExecuteWorkflow(PlayGroupMatches, group)
 
 	require.True(t, env.IsWorkflowCompleted())
 	require.NoError(t, env.GetWorkflowError())
@@ -67,6 +67,31 @@ func sortTeamsInPot(pot *Pot) {
 	})
 }
 
+var groupStageWinnersPot = Pot{
+	Teams: []Team{
+		{Name: "SSC Napoli"},
+		{Name: "FC Porto"},
+		{Name: "Bayern München"},
+		{Name: "Tottenham Hotspur"},
+		{Name: "Chelsea FC"},
+		{Name: "Real Madrid"},
+		{Name: "Manchester City"},
+		{Name: "SL Benfica"},
+	},
+}
+var groupStageRunnersUpPot = Pot{
+	Teams: []Team{
+		{Name: "Liverpool FC"},
+		{Name: "Club Brugge KV"},
+		{Name: "FC Internazionale"},
+		{Name: "Eintracht Frankfurt"},
+		{Name: "AC Milan"},
+		{Name: "RB Leipzig"},
+		{Name: "Borussia Dortmund"},
+		{Name: "Paris Saint-Germain"},
+	},
+}
+
 func TestGroupStage(t *testing.T) {
 	testSuite := &testsuite.WorkflowTestSuite{}
 	env := testSuite.NewTestWorkflowEnvironment()
@@ -89,43 +114,20 @@ func TestGroupStage(t *testing.T) {
 			GroupH(),
 		},
 	}
-	env.RegisterWorkflow(GroupWorkflow)
+	env.RegisterWorkflow(PlayGroupMatches)
 	env.ExecuteWorkflow(GroupStage, groupStageDrawResult)
 
 	require.True(t, env.IsWorkflowCompleted())
 	require.NoError(t, env.GetWorkflowError())
 	var groupStageResult GroupStageResult
 	require.NoError(t, env.GetWorkflowResult(&groupStageResult))
-	winnerPot := Pot{
-		Teams: []Team{
-			{Name: "SSC Napoli"},
-			{Name: "FC Porto"},
-			{Name: "Bayern München"},
-			{Name: "Tottenham Hotspur"},
-			{Name: "Chelsea FC"},
-			{Name: "Real Madrid"},
-			{Name: "Manchester City"},
-			{Name: "SL Benfica"},
-		},
-	}
-	runnerUpPot := Pot{
-		Teams: []Team{
-			{Name: "Liverpool FC"},
-			{Name: "Club Brugge KV"},
-			{Name: "FC Internazionale"},
-			{Name: "Eintracht Frankfurt"},
-			{Name: "AC Milan"},
-			{Name: "RB Leipzig"},
-			{Name: "Borussia Dortmund"},
-			{Name: "Paris Saint-Germain"},
-		},
-	}
+
 	// Handling concurrency avoiding problems
-	sortTeamsInPot(&winnerPot)
-	sortTeamsInPot(&runnerUpPot)
+	sortTeamsInPot(&groupStageWinnersPot)
+	sortTeamsInPot(&groupStageRunnersUpPot)
 	sortTeamsInPot(&groupStageResult.Pots[0])
 	sortTeamsInPot(&groupStageResult.Pots[1])
-	require.Equal(t, winnerPot, groupStageResult.Pots[0])
-	require.Equal(t, runnerUpPot, groupStageResult.Pots[1])
+	require.Equal(t, groupStageWinnersPot, groupStageResult.Pots[0])
+	require.Equal(t, groupStageRunnersUpPot, groupStageResult.Pots[1])
 
 }

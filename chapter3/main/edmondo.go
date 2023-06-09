@@ -2,9 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/edmondop/uefa-cl/chapter1"
-	"github.com/edmondop/uefa-cl/chapter2"
 	"github.com/edmondop/uefa-cl/chapter3"
+
 	"go.temporal.io/sdk/client"
 	"log"
 )
@@ -22,12 +21,12 @@ func main() {
 		TaskQueue: "champions-league",
 	}
 	participants := chapter3.GetParticipants()
-	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, chapter2.ChampionsLeague, participants)
+	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, chapter3.ChampionsLeague, participants)
 	if err != nil {
 		log.Fatalln("Unable to execute Champions League", err)
 	}
 	// Synchronously wait for the workflow completion.
-	var result chapter1.Result
+	var result chapter3.Result
 	err = we.Get(context.Background(), &result)
 	if err != nil {
 		log.Fatalln("Unable get workflow result", err)

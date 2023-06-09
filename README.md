@@ -34,10 +34,10 @@ UEFA Champions League is a fairly long-running workflow, it typically takes 8-9 
 How about modeling UEFA Champions League with Temporal? Ok, we won't have time to model all aspects of the competition, so that's what we are going to do.
 
 - in [Chapter 1](./chapter1) we are going to look at create the competition workflow and understand the basics of Temporal
-- in [Chapter 2](./chapter2) we are going to start modeling the structure of the competition, including its different phases
-- in [Chapter 3](./chapter3) we are going to support retrieving the current status
-- in [Chapter 4](./chapter4) we are going to look at modifying the competition to support future editions. 
-- in [Chapter 5](./chapter5) we are going try to list all victories of FC Internazionale
+- in [Chapter 2](./chapter2) we are going to start modeling the structure of the competition
+- in [Chapter 3](./chapter3) we are going to get an end to end version working
+- in [Chapter 4](./chapter4) we are going to look at how to bribe a referee and how to satisfy an impatient supporter 
+
 
 Even if you are already familiar with Temporal, I'll recommend you jump to Chapter 1. It's [Chapter 1](./chapter1/README.md) contains useful information to follow along with the various chapters, so don't skip the readme even if you skip the chapter!
 
@@ -61,6 +61,4 @@ Temporal is a workflow engine, so the core of what we do will be registering wor
 - We'll use the Temporal Server UI to understand what's happening, but you are free to use the CLI if you think user interfaces are the source of all evil (sometimes I do)
 
 
-## A final note
-
-GoLang is not my primary language. Please provide your feedback and improvements! 
+Let's get it started!

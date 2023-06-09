@@ -6,14 +6,7 @@ import (
 )
 
 func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
-	var groupStageDrawingVenue *GroupStageDrawingVenue
-	activityOptions := workflow.ActivityOptions{
-		StartToCloseTimeout: 10 * time.Hour,
-	}
-	ctx = workflow.WithActivityOptions(ctx, activityOptions)
-	groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawingVenue.DrawGroups, GroupStageDrawInput{Participants: participants})
-	var groupStageDrawResult GroupStageDrawResult
-	err := groupStageDraws.Get(ctx, &groupStageDrawResult)
+	groupStageDrawResult, err := drawGroupStageGroups(ctx, participants)
 	if err != nil {
 		return Result{}, err
 	}
@@ -22,14 +15,26 @@ func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, e
 	if err != nil {
 		return Result{}, err
 	}
-	// Playing group stage
-	workflow.Sleep(ctx, time.Second*60)
-
-	// Pairing for knockout phase
-
+	var finalist Finalists
+	err = workflow.ExecuteChildWorkflow(ctx, KnockoutStage, groupStageResult).Get(ctx, &finalist)
+	if err != nil {
+		return Result{}, err
+	}
 	return Result{
 		Winner: Team{Name: "FC Internazionale"},
 	}, nil
 }
 
-//func ChampionsLeague(ctx workflow.Context, participants Participants) (Result, error) {
+func drawGroupStageGroups(ctx workflow.Context, participants Participants) (GroupStageDrawResult, error) {
+	ctx = workflow.WithActivityOptions(
+		ctx,
+		workflow.ActivityOptions{
+			StartToCloseTimeout: 10 * time.Hour,
+		},
+	)
+	var groupStageDrawingVenue *GroupStageDrawingVenue
+	groupStageDraws := workflow.ExecuteActivity(ctx, groupStageDrawingVenue.DrawGroups, GroupStageDrawInput{Participants: participants})
+	var groupStageDrawResult GroupStageDrawResult
+	err := groupStageDraws.Get(ctx, &groupStageDrawResult)
+	return groupStageDrawResult, err
+}

@@ -128,7 +128,7 @@ func GroupStage(ctx workflow.Context, groupStageDrawResult GroupStageDrawResult)
 	selector := workflow.NewSelector(ctx)
 	var groupsRanking = []GroupRanking{}
 	for _, group := range groupStageDrawResult.Groups {
-		future := workflow.ExecuteChildWorkflow(ctx, GroupWorkflow, group)
+		future := workflow.ExecuteChildWorkflow(ctx, PlayGroupMatches, group)
 		selector.AddFuture(future, func(f workflow.Future) {
 			var groupRanking GroupRanking
 			err = f.Get(ctx, &groupRanking)
@@ -159,7 +159,7 @@ func GroupStage(ctx workflow.Context, groupStageDrawResult GroupStageDrawResult)
 	return
 }
 
-func GroupWorkflow(ctx workflow.Context, group Group) (ranking GroupRanking, err error) {
+func PlayGroupMatches(ctx workflow.Context, group Group) (ranking GroupRanking, err error) {
 	errorChannel := workflow.NewChannel(ctx)
 	rankingBuilder := groupRankingBuilder{
 		groupRankingEntriesMap: make(map[string]GroupRankingEntry, len(group.Teams)),
