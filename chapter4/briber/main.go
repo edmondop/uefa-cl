@@ -1,4 +1,4 @@
-package briber
+package main
 
 import (
 	"context"
