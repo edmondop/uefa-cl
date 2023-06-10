@@ -17,7 +17,8 @@ func main() {
 	defer c.Close()
 
 	w := worker.New(c, "champions-league", worker.Options{
-		Identity: "Nyon",
+		Identity:              "Nyon",
+		DisableWorkflowWorker: true,
 	})
 
 	activities := &chapter2.KnockoutPhaseDrawingVenue{

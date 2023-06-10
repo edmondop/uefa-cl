@@ -17,7 +17,8 @@ func main() {
 	defer c.Close()
 
 	w := worker.New(c, "champions-league", worker.Options{
-		Identity: "Monte Carlo",
+		Identity:              "Monte Carlo",
+		DisableWorkflowWorker: true,
 	})
 
 	activities := &chapter2.GroupStageDrawingVenue{
