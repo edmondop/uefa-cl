@@ -23,7 +23,7 @@ My learning journey with Temporal made me remember a talk from Rúnar Bjarnason 
 What really passionates me is writing software that has business impact and can change the world, and Temporal has uncovered for me new ways to do so. This is not the first time I encounter ah-ah moment in my learning journey and I am happy to share similar exciting discoveries I did in my career:
 
 - How **functional programming** constrain you to avoid mutability but leads to lower errors and much more composable software
-- How mastering Rust **ownership and lifetimes** is daunting upfront, but then leads you to write memory-safe programs with high performance
+- How mastering Rust **ownership and lifetimes** is daunting at the beginning, but then leads you to write memory-safe programs with high performance
 - How **event sourcing and CQRS** simplify writing applications that do not need strict consistency  
 
 
