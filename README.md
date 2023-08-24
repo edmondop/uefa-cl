@@ -53,7 +53,7 @@ temporal server start-dev
 
 The user interface will be available at `http://127.0.0.1:8233`. Open it and confirm there are no workflows visible
 
-### The general workflow
+### How this repo is organized
 
 Temporal is a workflow engine, so the core of what we do will be registering workflows and submitting executions of those workflows.
 - Each chapter will contain a README.md that will guide you in your journey.
